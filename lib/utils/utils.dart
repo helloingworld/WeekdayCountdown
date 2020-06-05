@@ -4,6 +4,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:weekday_countdown/common/app_settings.dart';
+
+/// Formats [number] as a decimal, inserting locale-appropriate thousands separators as necessary.
+String toDecimalString(BuildContext context, int number) {
+  final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+  return localizations.formatDecimal(number);
+}
 
 /// Shows a [SnackBar] with the specified [text] at the bottom of the specified scaffold.
 void showSnackBar(ScaffoldState scaffoldState, String text) {
@@ -35,9 +42,7 @@ extension ColorX on Color {
   MaterialColor createMaterialColor() {
     List<double> strengths = <double>[.05];
     Map<int, Color> swatch = <int, Color>{};
-    final int r = red,
-        g = green,
-        b = blue;
+    final int r = red, g = green, b = blue;
 
     for (int i = 1; i < 10; i++) {
       strengths.add(0.1 * i);
@@ -53,4 +58,28 @@ extension ColorX on Color {
     });
     return MaterialColor(value, swatch);
   }
+}
+
+String formatCountdown(BuildContext context, Duration countdown, CountdownFormat format) {
+  String formatString;
+
+  switch (format) {
+    case CountdownFormat.duration:
+      formatString = countdown.toString();
+      break;
+    case CountdownFormat.days:
+      formatString = toDecimalString(context, countdown.inDays);
+      break;
+    case CountdownFormat.hours:
+      formatString = toDecimalString(context, countdown.inHours);
+      break;
+    case CountdownFormat.minutes:
+      formatString = toDecimalString(context, countdown.inMinutes);
+      break;
+    case CountdownFormat.seconds:
+      formatString = toDecimalString(context, countdown.inSeconds);
+      break;
+  }
+
+  return formatString;
 }

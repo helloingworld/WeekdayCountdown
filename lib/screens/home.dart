@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:weekday_countdown/common/app_settings.dart';
 import 'package:weekday_countdown/utils/utils.dart';
 import 'package:weekday_countdown/widgets/app_drawer.dart';
 import 'package:weekday_countdown/common/app_strings.dart';
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   /// The map of counters for each counter type.
 //  final Counters _counters = Counters();
   Weekday selectedDay = Weekday.monday;
+
+  CountdownFormat _countdownFormat = CountdownFormat.minutes;
 
   /// The current app settings.
 //  final AppSettings _appSettings = AppSettings();
@@ -95,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final CountdownDisplay countdownDisplay = CountdownDisplay(
       countdown: Weekdays.countdownTo(selectedDay.index + 1),
+      countdownFormat: _countdownFormat,
       color: Weekdays.colorOf(selectedDay),
       isPortrait: isPortrait,
     );

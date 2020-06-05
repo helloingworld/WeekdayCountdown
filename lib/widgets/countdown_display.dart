@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:weekday_countdown/common/app_settings.dart';
 import 'package:weekday_countdown/utils/utils.dart';
 
 /// A widget that displays a centered integer counter value, filled with a specified color.
@@ -11,6 +12,7 @@ class CountdownDisplay extends StatelessWidget {
   const CountdownDisplay({
     Key key,
     @required this.countdown,
+    @required this.countdownFormat,
     @required this.color,
     this.isPortrait = true,
   })  : assert(color != null),
@@ -25,6 +27,8 @@ class CountdownDisplay extends StatelessWidget {
 
   final Duration countdown;
 
+  final CountdownFormat countdownFormat;
+
   @override
   Widget build(BuildContext context) {
     final TextStyle counterStyle =
@@ -37,7 +41,7 @@ class CountdownDisplay extends StatelessWidget {
       child: FittedBox(
         fit: BoxFit.fitWidth,
         child: Text(
-          countdown.inHours.toString(),
+          countdown == null ? 'Today' : formatCountdown(context, countdown, countdownFormat),
           overflow: TextOverflow.ellipsis,
           style: counterStyle.copyWith(
             color: color.contrastOf(),
