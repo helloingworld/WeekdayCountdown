@@ -2,6 +2,7 @@
 // Use of this source code is governed by an MIT-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:weekday_countdown/common/app_settings.dart';
 import 'package:weekday_countdown/utils/utils.dart';
@@ -34,19 +35,33 @@ class CountdownDisplay extends StatelessWidget {
     final TextStyle counterStyle =
         isPortrait ? Theme.of(context).textTheme.headline1 : Theme.of(context).textTheme.headline2;
 
+    final bool hasUnits = (countdown != null && countdownFormat != CountdownFormat.duration);
+
     return Container(
       alignment: Alignment.center,
       color: color,
       padding: const EdgeInsets.all(16.0),
-      child: FittedBox(
-        fit: BoxFit.fitWidth,
-        child: Text(
-          countdown == null ? 'Today' : formatCountdown(context, countdown, countdownFormat),
-          overflow: TextOverflow.ellipsis,
-          style: counterStyle.copyWith(
-            color: color.contrastOf(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              countdown == null ? 'Today' : formatCountdown(context, countdown, countdownFormat),
+              overflow: TextOverflow.ellipsis,
+              style: counterStyle.copyWith(
+                color: color.contrastOf(),
+              ),
+            ),
           ),
-        ),
+          if (hasUnits)
+            Text(
+              describeEnum(countdownFormat),
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: color.contrastOf(),
+                  ),
+            ),
+        ],
       ),
     );
   }

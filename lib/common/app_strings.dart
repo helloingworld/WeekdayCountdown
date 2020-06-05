@@ -34,8 +34,13 @@ class AppStrings {
 
   static String appBarTitle(String dayName) => '$dayName Countdown';
 
-  static const String incrementTooltip = 'Increment';
-  static const String decrementTooltip = 'Decrement';
+  //#endregion
+
+  //#region Settings
+
+  static const String settingsTitle = 'Settings';
+  static const String countdownFormatTitle = 'Countdown format';
+//  static const String counterTapModeSubtitle = 'Tap anywhere to increase counter';
 
   //#endregion
 }

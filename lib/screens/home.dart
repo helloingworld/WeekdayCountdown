@@ -9,6 +9,7 @@ import 'package:weekday_countdown/widgets/app_drawer.dart';
 import 'package:weekday_countdown/common/app_strings.dart';
 import 'package:weekday_countdown/models/weekday.dart';
 import 'package:weekday_countdown/widgets/countdown_display.dart';
+import 'package:weekday_countdown/screens/settings_screen.dart';
 
 /// Overflow menu items enumeration.
 enum MenuAction { share }
@@ -26,21 +27,19 @@ class _HomeScreenState extends State<HomeScreen> {
 //  final Counters _counters = Counters();
   Weekday selectedDay = Weekday.monday;
 
-  CountdownFormat _countdownFormat = CountdownFormat.minutes;
-
   /// The current app settings.
-//  final AppSettings _appSettings = AppSettings();
+  final AppSettings _appSettings = AppSettings();
 
   @override
   void initState() {
     super.initState();
-    _loadCounters();
+    _loadSettings();
   }
 
   /// Loads counter values from persistent storage.
-  Future<void> _loadCounters() async {
+  Future<void> _loadSettings() async {
 //    await _counters.load();
-//    await _appSettings.load();
+    await _appSettings.load();
     setState(() {
       /* Refresh after loading counters. */
     });
@@ -85,8 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Navigates to the Settings screen, and refreshes on return.
   Future<void> _loadSettingsScreen() async {
-//    await Navigator.push<void>(context,
-//        MaterialPageRoute(builder: (context) => SettingsScreen(appSettings: _appSettings)));
+    await Navigator.push<void>(context,
+        MaterialPageRoute(builder: (context) => SettingsScreen(appSettings: _appSettings)));
     setState(() {
       /* Refresh after returning from Settings screen. */
     });
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final CountdownDisplay countdownDisplay = CountdownDisplay(
       countdown: Weekdays.countdownTo(selectedDay.index + 1),
-      countdownFormat: _countdownFormat,
+      countdownFormat: _appSettings.countdownFormat,
       color: Weekdays.colorOf(selectedDay),
       isPortrait: isPortrait,
     );
